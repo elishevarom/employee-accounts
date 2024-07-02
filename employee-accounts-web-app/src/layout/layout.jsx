@@ -19,6 +19,7 @@ export function Layout() {
                         <Nav.Link href="/retrieve">View Employee Profile</Nav.Link>
                         <Nav.Link href="/update">Update Employee Profile</Nav.Link>
                         <Nav.Link href="/delete">Delete Employee Profile</Nav.Link>
+                        <Nav.Link href="/contact">Contact Us</Nav.Link>
                     </Nav>
                 </Container>
             </Navbar>
