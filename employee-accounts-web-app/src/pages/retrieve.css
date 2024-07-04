@@ -1,0 +1,48 @@
+
+  .overlay-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    content: "";
+    position: absolute;
+    top: 10;
+    left: 0;
+    padding-bottom: 10%;
+    width: 33.33%; 
+    height: 100%;
+    background-color: #BEDF7C;
+    z-index: 2; /* Ensure it's above other content */
+  }
+
+  .non-overlay{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    padding-bottom: 10%;
+    top: 10;
+    right: 0;
+    width: 66.67%; 
+    height: 100%;
+    z-index: 2;
+  }
+
+  .within-overlay{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+  }
+
+  h2 {
+    justify-content: left;
+  }
+
+  #dropdown-employees{
+    background-color: rgb(14, 14, 95);
+    outline: none;
+  }
+  

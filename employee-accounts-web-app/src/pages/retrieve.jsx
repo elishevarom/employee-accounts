@@ -1,4 +1,4 @@
-
+import './retrieve.css';
 
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
@@ -63,34 +63,31 @@ export function Retrieve() {
 
     return(
         <>
+        <div className="overlay-section">
+            <div className = 'within-overlay'>
+            <h2>View Employee Profiles</h2>
+            <DropdownButton id="dropdown-employees" title="Select an Employee" className = 'mt-5'>
+            {empsList.map((option) => (
+                <Dropdown.Item key={option.index} onClick={() => updateEmployee(option)}>{option.firstName} {option.lastName}</Dropdown.Item>
+            ))}
 
-        <h2 className = 'mt-5'>View Employee Profiles</h2>
-        <DropdownButton id="dropdown-employees" title="Select an Employee" className = 'mt-5'>
-        {empsList.map((option) => (
-            <Dropdown.Item key={option.index} onClick={() => updateEmployee(option)}>{option.firstName} {option.lastName}</Dropdown.Item>
-        ))}
-
-         </DropdownButton>    
-         <br></br>
-         <br></br>
-         <br></br>
-         <br></br>
-         <br></br>
-         <br></br>
-         <br></br>
-        <div className = 'd-flex justify-content-center align-items-center'>
-        <Card style={{ width: '18rem', border: showBorder()}} className = 'mt-20'>
-            <Card.Body>
-            <Card.Title>{currentView.firstName} {currentView.lastName}</Card.Title>
-            <Card.Text>
-                    {showPosition()}
-                    <br></br>
-                    {showPhone()}
-                    <br></br>
-                    {showEmail()}
-            </Card.Text>
-            </Card.Body>
-         </Card>
+            </DropdownButton>  
+            </div> 
+        </div>
+        
+        <div className = "non-overlay">
+            <Card style={{border: showBorder()}}>
+                <Card.Body>
+                <Card.Title>{currentView.firstName} {currentView.lastName}</Card.Title>
+                <Card.Text>
+                        {showPosition()}
+                        <br></br>
+                        {showPhone()}
+                        <br></br>
+                        {showEmail()}
+                </Card.Text>
+                </Card.Body>
+            </Card>
          </div>
 
 
