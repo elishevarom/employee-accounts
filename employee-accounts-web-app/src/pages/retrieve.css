@@ -1,5 +1,10 @@
-
-  .overlay-section {
+ body {
+    background-image: url('../navy-2.png');
+    background-size: cover;
+    z-index: 1;
+ }
+  
+ .overlay-section {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,12 +12,13 @@
     content: "";
     position: absolute;
     top: 10;
-    left: 0;
+    left: 10%;
     padding-bottom: 10%;
-    width: 33.33%; 
+    width: 33%; 
     height: 100%;
-    background-color: #BEDF7C;
-    z-index: 2; /* Ensure it's above other content */
+    background-color: #5D9D67;
+    opacity: 70%;
+    z-index: 2; 
   }
 
   .non-overlay{
@@ -23,9 +29,8 @@
     padding-bottom: 10%;
     top: 10;
     right: 0;
-    width: 66.67%; 
     height: 100%;
-    z-index: 2;
+    width: 57%;
   }
 
   .within-overlay{
@@ -35,6 +40,7 @@
     align-items: center;
     justify-content: center;
     z-index: 3;
+    color: white;
   }
 
   h2 {
@@ -42,7 +48,7 @@
   }
 
   #dropdown-employees{
-    background-color: rgb(14, 14, 95);
-    outline: none;
-  }
+    background-color: #06232C;
+    color: white;
+  }  
   

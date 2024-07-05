@@ -63,6 +63,7 @@ export function Retrieve() {
 
     return(
         <>
+        <body>
         <div className="overlay-section">
             <div className = 'within-overlay'>
             <h2>View Employee Profiles</h2>
@@ -91,8 +92,8 @@ export function Retrieve() {
          </div>
 
 
+        </body>
         </>
-
   );
 
 }
