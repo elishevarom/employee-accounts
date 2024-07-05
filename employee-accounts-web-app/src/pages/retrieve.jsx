@@ -50,20 +50,20 @@ export function Retrieve() {
         }
     }
 
-    const showBorder = () => {
-        if (currentView != ''){
-        return ('1px solid blue')
-        }
-        else{
-            return ('none')
-        }
-    }
+    // const showBorder = () => {
+    //     if (currentView != ''){
+    //     return ('1px solid blue')
+    //     }
+    //     else{
+    //         return ('none')
+    //     }
+    // }
      
 
 
     return(
         <>
-        <body>
+        <div className = 'background-image'>
         <div className="overlay-section">
             <div className = 'within-overlay'>
             <h2>View Employee Profiles</h2>
@@ -77,7 +77,7 @@ export function Retrieve() {
         </div>
         
         <div className = "non-overlay">
-            <Card style={{border: showBorder()}}>
+            <Card className = 'card'>
                 <Card.Body>
                 <Card.Title>{currentView.firstName} {currentView.lastName}</Card.Title>
                 <Card.Text>
@@ -92,7 +92,7 @@ export function Retrieve() {
          </div>
 
 
-        </body>
+        </div>
         </>
   );
 

@@ -1,4 +1,4 @@
- body {
+ background-image {
     background-image: url('../navy-2.png');
     background-size: cover;
     z-index: 1;
@@ -52,4 +52,12 @@
     background-color: #06232C;
     color: white;
   }  
+
+  .card {
+    background-color: white;
+    position: absolute;
+    height: 60;
+    width: 60;
+    box-shadow: '1px 1px 20px white';
+  }
   
