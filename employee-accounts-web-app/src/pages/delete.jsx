@@ -42,6 +42,18 @@ export function Delete() {
     }));
     setEmployees(updatedEmployees);
   };
+  const handleConfirmation = (e, employeeId,employeeFN, employeeLN) => {
+    e.preventDefault();
+    const answer = window.confirm(`Are you sure you would like to delete ${employeeFN} ${employeeLN} from the system?`);    if (answer) {
+      // Remove the employee from the state
+      removeEmployee(employeeId);
+    } else {
+      // Handle cancellation (optional)
+      console.log('Deletion canceled.');
+    }
+  };
+   
+    
   return (
     <div className="background-image">
     <Alert style={{boxShadow: '0 30px 20px 10px #152235', borderRadius: '0', backgroundColor: 'white',borderTop: '5px solid',borderBottom: '5px solid',color: '#5D9D67', borderColor: '#5D9D67', opacity: '90%'}}>
@@ -89,7 +101,7 @@ export function Delete() {
                       <Row style={{ padding: '30px' }}>
                         <Button
                           type="button" style={{backgroundColor: '#152235', color: 'white', borderColor: '#152235', marginBottom: '-30px'}}
-                          onClick={() => removeEmployee(employee.id)}
+                          onClick={(e) => handleConfirmation(e, employee.id, employee.firstName, employee.lastName)}
                         >
                           Delete Employee Profile
                         </Button>
@@ -105,5 +117,6 @@ export function Delete() {
     </Container>
     </div>
   );
+
 }
 export default Delete;
