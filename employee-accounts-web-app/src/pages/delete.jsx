@@ -1,9 +1,11 @@
+import './delete.css';
 import React, { useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 const initialEmployees = [
   {
     id: 1,
@@ -41,13 +43,18 @@ export function Delete() {
     setEmployees(updatedEmployees);
   };
   return (
+    <div className="background-image">
+    <Alert style={{boxShadow: '0 30px 20px 10px #152235', borderRadius: '0', backgroundColor: 'white',borderTop: '5px solid',borderBottom: '5px solid',color: '#5D9D67', borderColor: '#5D9D67', opacity: '90%'}}>
+        <h1 style={{opacity:"100%", textShadow: '1px 1px 2px #152235', fontSize: '40px', fontWeight: 'bold',  fontFamily: 'Times-New-Roman', letterSpacing: '100 px', textTransform: 'uppercase'}}>Delete An Employee Account</h1>
+    </Alert>
+    
     <Container>
       {employees.map((employee) => (
         <Col key={employee.id} style={{ margin: '20px' }}>
           <Row style={{ margin: '10px' }}>
-            <Accordion activeKey={employee.isOpen ? '0' : undefined}>
+            <Accordion  activeKey={employee.isOpen ? '0' : undefined}>
               <Accordion.Item eventKey="0">
-                <Accordion.Header onClick={() => toggleAccordion(employee.id)}>
+                <Accordion.Header className="accordion-header" onClick={() => toggleAccordion(employee.id)}>
                   {employee.lastName + ', ' + employee.firstName}
                 </Accordion.Header>
                 <Accordion.Body>
@@ -81,7 +88,7 @@ export function Delete() {
                       </Row>
                       <Row style={{ padding: '30px' }}>
                         <Button
-                          type="button"
+                          type="button" style={{backgroundColor: '#152235', color: 'white', borderColor: '#152235', marginBottom: '-30px'}}
                           onClick={() => removeEmployee(employee.id)}
                         >
                           Delete Employee Profile
@@ -96,6 +103,7 @@ export function Delete() {
         </Col>
       ))}
     </Container>
+    </div>
   );
 }
 export default Delete;

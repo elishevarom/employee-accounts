@@ -1,0 +1,14 @@
+.background-image{
+    background-image: url("../navy-1.png");
+    background-size: cover; 
+    background-position: center;
+    background-repeat: repeat;
+    height: 100vh; 
+
+}      
+.accordion-header{
+    --bs-accordion-active-bg: #97a8ba;
+    --bs-accordion-btn-focus-box-shadow: none;
+    }
+
+    
