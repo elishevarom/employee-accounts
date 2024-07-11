@@ -58,26 +58,11 @@ export function Retrieve() {
     //         return ('none')
     //     }
     // }
-     
 
-
-    return(
-        <>
-        <div className = 'background-image'>
-        <div className="overlay-section">
-            <div className = 'within-overlay'>
-            <h2>View Employee Profiles</h2>
-            <DropdownButton id="dropdown-employees" title="Select an Employee" className = 'mt-5'>
-            {empsList.map((option) => (
-                <Dropdown.Item key={option.index} onClick={() => updateEmployee(option)}>{option.firstName} {option.lastName}</Dropdown.Item>
-            ))}
-
-            </DropdownButton>  
-            </div> 
-        </div>
-        
-        <div className = "non-overlay">
-            <Card className = 'card'>
+    const showCard = () => {
+        if (currentView != '')
+            {
+                return (<Card className = 'card-hidden'>
                 <Card.Body>
                 <Card.Title>{currentView.firstName} {currentView.lastName}</Card.Title>
                 <Card.Text>
@@ -88,11 +73,34 @@ export function Retrieve() {
                         {showEmail()}
                 </Card.Text>
                 </Card.Body>
-            </Card>
+                </Card>)
+            }
+    }
+     
+
+
+    return(
+        <>
+        <div id = "background-image">
+        <div className="overlay-section">
+            <div className = 'within-overlay'>
+            <h2>View Employee</h2>
+            <DropdownButton id="dropdown-employees" title="Select an Employee" className = 'mt-5 btn-lg'>
+            {empsList.map((option) => (
+                <Dropdown.Item key={option.index} onClick={() => updateEmployee(option)}>{option.firstName} {option.lastName}</Dropdown.Item>
+            ))}
+
+            </DropdownButton>  
+            </div> 
+        </div>
+        
+        <div className = "non-overlay">
+            {showCard()}
          </div>
 
+        </div>    
 
-        </div>
+
         </>
   );
 

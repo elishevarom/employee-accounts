@@ -1,10 +1,13 @@
- background-image {
+ #background-image {
     background-image: url('../navy-2.png');
     background-size: cover;
+    height: 100%;
+    width: 100%;
     z-index: 1;
+    position: absolute;
  }
   
- .overlay-section {
+  .overlay-section {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,7 +24,7 @@
     z-index: 2; 
   }
 
-  .non-overlay{
+   .non-overlay{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -42,22 +45,26 @@
     justify-content: center;
     z-index: 3;
     color: white;
+    opacity: 100%;
+    font-size: 50px;
   }
 
-  h2 {
-    justify-content: left;
-  }
 
   #dropdown-employees{
     background-color: #06232C;
     color: white;
+    
   }  
 
-  .card {
+
+  .card{
     background-color: white;
+    opacity: 70%;
     position: absolute;
-    height: 60;
-    width: 60;
-    box-shadow: '1px 1px 20px white';
-  }
-  
+    height: 400px;
+    width: 400px;
+    box-shadow: 1px 1px 20px white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }  
