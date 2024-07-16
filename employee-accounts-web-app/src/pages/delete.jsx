@@ -44,7 +44,8 @@ export function Delete() {
   };
   const handleConfirmation = (e, employeeId,employeeFN, employeeLN) => {
     e.preventDefault();
-    const answer = window.confirm(`Are you sure you would like to delete ${employeeFN} ${employeeLN} from the system?`);    if (answer) {
+    const answer = window.confirm(`Are you sure you would like to delete ${employeeFN} ${employeeLN} from the system?`);  
+      if (answer) {
       // Remove the employee from the state
       removeEmployee(employeeId);
     } else {
