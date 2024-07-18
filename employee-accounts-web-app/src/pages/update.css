@@ -25,11 +25,11 @@
     justify-content: center;
     position: absolute;
     padding-bottom: 10%;
-    top: 40%;
+    top: 47%;
     right: 10px;
     left: 450px;
     width: 50%; 
-    height: 30%;
+    height: 25%;
     z-index: 2;
     
   }
@@ -44,9 +44,9 @@
     justify-content: center;
     position: absolute;
     padding-bottom: 10%;
-    top: 75%;
+    top: 89%;
     right: 10px;
-    left: 450px;
+    left: 190px;
     width: 50%; 
     height: 30%;
     z-index: 3;
@@ -60,9 +60,9 @@
     position: absolute;
     padding-bottom: 10%;
     justify-content: space-between;
-    top: 45%;
+    top: 14%;
     right: 10px;
-    left: 180px;
+    left: 580px;
     width: 55%; 
     height: 30%;
     z-index: 3;
