@@ -1,74 +1,108 @@
-import { useState } from "react";
-import { Container, ListGroup, Button, Form, Row, Col, Dropdown } from 'react-bootstrap';
+import { useState, useEffect } from "react";
+import { Container, ListGroup, Button, Form, Row, Col, Dropdown, Alert } from 'react-bootstrap';
 import './update.css';
 // import '../navy-1.png';
-import employeeImage from '../profile.png'; // Import your image
-import navyBackground from '../navy-1.png'; // Import navy background image
-import { Alert } from "react-bootstrap";
+// import employeeImage from '../profile.png'; // Import your image
+// import navyBackground from '../navy-1.png'; // Import navy background image
 export function Update() {
-    const lists = [
-        [
-            { key: 'Last Name', value: 'Doe' },
-            { key: 'First Name', value: 'John' },
-            { key: 'Date of Birth', value: '01/01/2001'},
-            { key: 'Email', value: 'johndoe@accounts.net'},
-            { key: 'Phone', value: '234-567-8900'},
-            { key: 'Position', value: 'Full Stack Developer'},
-            { key: 'Location', value: 'Maryland'}
-        ],
-        [
-            { key: 'Last Name', value: 'Jones' },
-            { key: 'First Name', value: 'Sally' },
-            { key: 'Date of Birth', value: '02/02/2002'},
-            { key: 'Email', value: 'sallyjohn@accounts.net'},
-            { key: 'Phone', value: '543-765-3900'},
-            { key: 'Position', value: 'Intern'},
-            { key: 'Location', value: 'Virginia'}
-        ],
-        [
-            { key: 'Last Name', value: 'Gold' },
-            { key: 'First Name', value: 'Chaim' },
-            { key: 'Date of Birth', value: '03/03/2003'},
-            { key: 'Email', value: 'chaimgold@accounts.net'},
-            { key: 'Phone', value: '534-705-3320'},
-            { key: 'Position', value: 'Manager'},
-            { key: 'Location', value: 'Virginia'}
-        ]
-    ];
 
-    const [account, setAccount] = useState(lists);
+    const [account, setAccount] = useState([]);
     const [selectedEmployeeIndex, setSelectedEmployeeIndex] = useState(null); // Track selected employee index
     const [selectedItemKey, setSelectedItemKey] = useState(null);
     const [newValue, setNewValue] = useState('');
     const [showUpdateForm, setShowUpdateForm] = useState(false);
+    const [lastName, setLastName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [error, setError]=useState(false)
 
-    const handleEmployeeSelect = (index) => {
-        setSelectedEmployeeIndex(index);
+    useEffect(() => {
+        const retrieveAccounts = async (e) => {
+            if (e) {
+              e.preventDefault();
+            }
+          
+            try {
+              const response = await fetch('https://zx814esxf6.execute-api.us-east-1.amazonaws.com/CORS-Enabled/getAllEmployeeAccounts');
+          
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+          
+              const data = await response.json();
+              setAccount(data); // Assuming data is an array of accounts
+            } catch (error) {
+              console.error('Error:', error);
+              // setError(error.message); // Uncomment if you have an error state
+            }
+          };
+                  retrieveAccounts()
+        }, []);
+     
+    const handleEmployeeSelect = (last_name, first_name, index) => {
+        setSelectedEmployeeIndex(last_name);
+        setLastName(last_name);
+        setFirstName(first_name);
         setSelectedItemKey(null); // Reset selectedItemKey when a new employee is selected
         setShowUpdateForm(false); // Hide update form when a new employee is selected
     };
 
-    const updateValue = () => {
-        if (selectedEmployeeIndex !== null && selectedItemKey !== null && newValue !== '') {
-            // Create a copy of the current lists state
-            const updatedLists = [...account];
-            
-            // Find the correct list and update the selected item's value
-            updatedLists[selectedEmployeeIndex] = updatedLists[selectedEmployeeIndex].map(item => {
-                if (item.key === selectedItemKey) {
-                    return { ...item, value: newValue };
+    const updateValue = async () => {
+        if (lastName !== null && firstName !== null && selectedItemKey !== null && newValue !== '') {
+            try {
+                const empId = lastName; // Replace with actual employee ID from your account data
+                const attributeName = selectedItemKey;
+                console.log(selectedItemKey)
+                console.log(newValue)
+                console.log(lastName)
+                const params = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        // "employeeId": "empId",
+                        // "TableName": "'employee_accounts'",
+                        attributeName: attributeName,
+                        value: newValue
+                    })
+                };
+                
+                const response = await fetch(`https://zx814esxf6.execute-api.us-east-1.amazonaws.com/CORS-Enabled/updateAccount?employeeId=${empId}`, params);
+                console.log(response)
+                if (!response.ok) {
+                    setError(true)
+                    setShowUpdateForm(false)
+                    throw new Error('Network response was not ok');
                 }
-                return item;
-            });
 
-            // Update the state with the modified lists
-            setAccount(updatedLists);
-            setNewValue('');
-            setShowUpdateForm(false);
+                const updatedData = await response.json();
+                console.log('Updated data:', updatedData);
+
+                // Update local state with new value
+                const updatedAccount = account.map(emp => {
+                    if (emp['pk'] === lastName && emp['First Name'] === firstName) {
+                        return {
+                            ...emp,
+                            [attributeName]: newValue
+                        };
+                    }
+                    return emp;
+                });
+
+                setAccount(updatedAccount);
+                setNewValue('');
+                setShowUpdateForm(false);
+            } catch (error) {
+                console.error('Error updating value:', error);
+                setError(true)
+                setShowUpdateForm(false)
+                // Handle error state if needed
+            }
+        } else {
+            console.error('Missing required fields for update');
+            // Handle missing fields error state if needed
         }
     };
-
-
 
     return (
         <>
@@ -83,42 +117,48 @@ export function Update() {
                     <Row >
                         <br/>
                         {/* Left column for employee dropdown */}
-                        <Col className="overlay-section " >
-                            <Dropdown>
-                                <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                                    Select Employee
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    {account.map((list, index) => (
-                                        <Dropdown.Item key={index} onClick={() => handleEmployeeSelect(index)}>
-                                            {list.find(item => item.key === 'Last Name').value}, {list.find(item => item.key === 'First Name').value}
-                                        </Dropdown.Item>
-                                    ))}
-                                </Dropdown.Menu>
-                            </Dropdown>
+                        <Col className="overlay-section">
+                        <Dropdown>
+                            <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                            Select Employee
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                            {account.map((employee, index) => (
+                                <Dropdown.Item key={index} onClick={() => handleEmployeeSelect(employee['pk'], employee['First Name'])}>
+                                {employee['pk']}, {employee['First Name']}
+                                </Dropdown.Item>
+                            ))}
+                            </Dropdown.Menu>
+                        </Dropdown>
                         </Col>
 
                         {/* Middle column for field dropdown and update text box */}
-                        <Col className="non-overlay-bottom">
+                        <div className="non-overlay-bottom">
                             {selectedEmployeeIndex !== null && (
                                 <Dropdown>
                                     <Dropdown.Toggle variant="primary" id="dropdown-basic">
                                         Select Field to Update
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
-                                        {lists[selectedEmployeeIndex]?.map((item) => (
-                                            <Dropdown.Item key={item.key} onClick={() => {
-                                                setSelectedItemKey(item.key);
+                                    {account
+                                            .filter(emp => emp['pk'] === lastName && emp['First Name'] === firstName)
+                                            .map(emp => (
+                                                <div key={`${emp['pk']}-${emp['First Name']}`}>
+                                                    {Object.entries(emp).map(([key, value]) => (
+                                            <Dropdown.Item key={key} onClick={() => {
+                                                setSelectedItemKey(key);
                                                 setShowUpdateForm(true);
-                                                setNewValue(item.value);
-                                            }}>
-                                                {item.key}
+                                                }}>                                                           
+                                                {key}
                                             </Dropdown.Item>
-                                        ))}
+                                                    ))}
+                                                </div>
+                                            ))
+                                    }
                                     </Dropdown.Menu>
                                 </Dropdown>
                             )}
-
+                        {/*update buttons*/}
                             {showUpdateForm && selectedItemKey !== null && (
                                 <div className="non-overlay-lowest">
                                     <Form.Group>
@@ -128,10 +168,19 @@ export function Update() {
                                             value={newValue}
                                             onChange={(e) => setNewValue(e.target.value)} />
                                     </Form.Group>
-                                    <Button onClick={updateValue}>Update {selectedItemKey}</Button>
+                                        <Button onClick={updateValue}>Update {selectedItemKey}</Button>
+                                    
                                 </div>
                             )}
-                        </Col>
+                            {(error) && (
+                                <div className="non-overlay-lowest">
+                                  <Alert variant="danger" onClose={() => setError(false)} dismissible>
+                                        <div>Error Updating Item!</div>
+                                    </Alert>
+                                </div>
+                            )}
+                                
+                        </div>
 
                         {/* Right column for employee info */}
                         <Col className="non-overlay">
@@ -139,18 +188,25 @@ export function Update() {
                                 <Container>
                                     <h2 className="white-text">Employee Information</h2>
                                     <ListGroup style={{opacity:"75%"}}>
-                                        {account[selectedEmployeeIndex].map((item) => (
-                                            <ListGroup.Item key={item.key} >
-                                                <Row>
-                                                    <Col sm={6}>
-                                                        <h5>{item.key}:</h5>
-                                                    </Col>
-                                                    <Col sm={6}>
-                                                        <h5>{item.value}</h5>
-                                                    </Col>
-                                                </Row>
-                                            </ListGroup.Item>
-                                        ))}
+                                        {account
+                                            .filter(emp => emp['pk'] === lastName && emp['First Name'] === firstName)
+                                            .map(emp => (
+                                                <div key={`${emp['pk']}-${emp['First Name']}`}>
+                                                    {Object.entries(emp).map(([key, value]) => (
+                                                        <ListGroup.Item key={key}>
+                                                            <Row>
+                                                                <Col sm={6}>
+                                                                    <h5>{key}:</h5>
+                                                                </Col>
+                                                                <Col sm={6}>
+                                                                    <h5>{value}</h5>
+                                                                </Col>
+                                                            </Row>
+                                                        </ListGroup.Item>
+                                                    ))}
+                                                </div>
+                                            ))
+                                        }
                                     </ListGroup>
                                 </Container>
                             )}
