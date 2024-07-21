@@ -1,4 +1,3 @@
-// import './delete.css';
 import React, { useState, useEffect } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Container from 'react-bootstrap/Container';
@@ -6,7 +5,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
-
 
 export const Delete = () => {
   const [employees, setEmployees] = useState([]);
@@ -17,34 +15,32 @@ export const Delete = () => {
 
   const fetchData = async () => {
     try {
-      // Replace 'https://api.example.com/employees' with your actual API endpoint that fetches data from DynamoDB
       const response = await fetch('https://zx814esxf6.execute-api.us-east-1.amazonaws.com/default/getAllEmployeeAccounts');
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
       const data = await response.json();
-      // Assuming data is an array of employee objects from DynamoDB
       const formattedEmployees = data.map(emp => ({
-        id: emp.pk, // Assuming pk is the primary key or unique identifier for each employee
-        firstName: emp['First Name'], // Accessing attributes using bracket notation due to spaces in attribute names
+        id: emp.pk,
+        firstName: emp['First Name'],
         lastName: emp.pk,
         position: emp.Position,
-        location: `${emp.Address} ${emp.City}, ${emp.State} ${emp.Zip}`,
+        location: (
+          <div>
+            {emp.Address}<br />
+            {emp.City}, {emp.State} {emp.Zip}
+          </div>
+        ),
         phone: emp.Phone,
         email: emp.Email,
-        isOpen: false // Initialize isOpen for accordion state
+        isOpen: false
       }));
-      setEmployees(formattedEmployees); // Update state with fetched data
+      setEmployees(formattedEmployees);
     } catch (error) {
       console.error('Error fetching data:', error);
       // Handle error state or logging
     }
   };
-
-  // const removeEmployee = (id) => {
-  //   const updatedEmployees = employees.filter((emp) => emp.id !== id);
-  //   setEmployees(updatedEmployees);
-  // };
 
   const removeEmployee = async (employeeId) => {
     try {
@@ -70,7 +66,7 @@ export const Delete = () => {
   const toggleAccordion = (id) => {
     const updatedEmployees = employees.map((emp) => ({
       ...emp,
-      isOpen: emp.id === id ? !emp.isOpen : emp.isOpen
+      isOpen: emp.id === id ? !emp.isOpen : false // Close all accordions except the one being toggled
     }));
     setEmployees(updatedEmployees);
   };
@@ -79,7 +75,7 @@ export const Delete = () => {
     e.preventDefault();
     const answer = window.confirm(`Are you sure you would like to delete ${employeeFN} ${employeeLN} from the system?`);
     if (answer) {
-      removeEmployee(employeeId); // Remove the employee from the state
+      removeEmployee(employeeId);
     } else {
       console.log('Deletion canceled.');
     }
@@ -88,7 +84,7 @@ export const Delete = () => {
   return (
     <div className="background-image">
       <Alert style={{ boxShadow: '0 30px 20px 10px #152235', borderRadius: '0', backgroundColor: 'white', borderTop: '5px solid', borderBottom: '5px solid', color: '#5D9D67', borderColor: '#5D9D67', opacity: '90%' }}>
-        <h1 style={{ opacity: "100%", textShadow: '1px 1px 2px #152235', fontSize: '40px', fontWeight: 'bold', fontFamily: 'Times-New-Roman', letterSpacing: '100px', textTransform: 'uppercase' }}>Delete An Employee Account</h1>
+        <h1 style={{ opacity: "100%", textShadow: '1px 1px 2px #152235', fontSize: '40px', fontWeight: 'bold', fontFamily: 'Times-New-Roman', letterSpacing: '10%', textTransform: 'uppercase' }}>Delete An Employee Account</h1>
       </Alert>
 
       <Container>
@@ -97,7 +93,7 @@ export const Delete = () => {
             <Row style={{ margin: '10px' }}>
               <Accordion activeKey={employee.isOpen ? '0' : undefined}>
                 <Accordion.Item eventKey="0">
-                  <Accordion.Header className="accordion-header" onClick={() => toggleAccordion(employee.id)}>
+                  <Accordion.Header style={{ '--bs-accordion-active-bg': '#97a8ba', '--bs-accordion-btn-focus-box-shadow': 'none' }} className="accordion-header" onClick={() => toggleAccordion(employee.id)}>
                     {employee.lastName + ', ' + employee.firstName}
                   </Accordion.Header>
                   <Accordion.Body>
@@ -132,7 +128,7 @@ export const Delete = () => {
                         <Row style={{ paddingTop: '20px' }}>
                           <Button
                             type="button"
-                            // style={{ backgroundColor: '#152235', color: 'white', borderColor: '#152235' }}
+                            style={{ backgroundColor: '#152235', color: 'white', borderColor: '#152235' }}
                             onClick={(e) => handleConfirmation(e, employee.id, employee.firstName, employee.lastName)}
                           >
                             Delete Employee Profile
