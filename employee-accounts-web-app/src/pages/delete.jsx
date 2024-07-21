@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 
+
 export const Delete = () => {
   const [employees, setEmployees] = useState([]);
 
@@ -131,7 +132,7 @@ export const Delete = () => {
                         <Row style={{ paddingTop: '20px' }}>
                           <Button
                             type="button"
-                            style={{ backgroundColor: '#152235', color: 'white', borderColor: '#152235' }}
+                            // style={{ backgroundColor: '#152235', color: 'white', borderColor: '#152235' }}
                             onClick={(e) => handleConfirmation(e, employee.id, employee.firstName, employee.lastName)}
                           >
                             Delete Employee Profile
