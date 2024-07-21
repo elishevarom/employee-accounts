@@ -22,7 +22,7 @@ export function Retrieve() {
           const formattedEmployees = data.map(emp => ({
             id: emp.pk, 
             firstName: emp['First Name'], 
-            lastName: emp.pk,
+            lastName: emp['Last Name'],
             position: emp.Position,
             location: `${emp.Address} ${emp.City}, ${emp.State} ${emp.Zip}`,
             phone: emp.Phone,
