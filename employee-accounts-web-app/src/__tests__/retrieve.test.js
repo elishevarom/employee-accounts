@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { Retrieve } from './pages/retrieve.jsx';
+import { Retrieve } from './/retrieve.jsx';
 
 test('fetches employees and displays them correctly', async () => {
   // Mock the fetch function
