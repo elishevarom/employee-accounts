@@ -19,6 +19,7 @@ export function Add() {
   const [list, setList] = useState([]);
   const [formData, setFormData] = useState(initialFormData);
   const [create, setCreate] = useState('No Employee Added');
+  const [responseMessage, setResponseMessage] = useState();
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -37,6 +38,40 @@ export function Add() {
 
     setValidated(true);
     updateList();
+
+    setResponseMessage({});
+    const params = {
+      method: 'POST',
+      body: JSON.stringify({
+          employeeID: (formData.zip).substring(3,4),
+          lastName: formData.lastName,
+          firstName: formData.firstName,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          zip: formData.zip,
+          position: formData.position
+      })
+  };
+  fetch('https://zx814esxf6.execute-api.us-east-1.amazonaws.com/CORS-Enabled/addAccount', params)
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      return response.json();
+  })
+  .then(data => {
+      console.log(data)
+      setResponseMessage('Employee created successfully' );
+      console.log(responseMessage);
+  })
+  .catch(error => {
+
+      setResponseMessage('Error in creating Employee' );
+      console.log(responseMessage);
+  });
   };
 
   const updateList = () => {
@@ -45,7 +80,7 @@ export function Add() {
         const newEmployee = `${formData.firstName} ${formData.lastName}, ${formData.email}, ${formData.phone}, ${formData.address}, ${formData.city}, ${formData.state} ${formData.zip}, ${formData.position}`;
     setList([...list, newEmployee]);
 
-    setFormData(initialFormData); // Reset form fields
+    setFormData(initialFormData);
 
     setCreate('Employee Added');
       }
@@ -167,9 +202,6 @@ export function Add() {
         </Form.Group>
       </Row>
 
-
-      {/* Rest of the form fields here */}
-
       <Button type="submit">Submit Employee Information</Button>
 
       <Row className="my-3">
@@ -184,7 +216,6 @@ export function Add() {
           </Card>
         </Col>
       </Row>
-
       <Row className="my-3">
         <Col>
           <Alert variant="primary">{create}</Alert>
