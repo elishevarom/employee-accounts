@@ -23,7 +23,7 @@ export const Delete = () => {
       const formattedEmployees = data.map(emp => ({
         id: emp.pk,
         firstName: emp['First Name'],
-        lastName: emp.pk,
+        lastName: emp['Last Name'],
         position: emp.Position,
         location: (
           <div>
