@@ -10,11 +10,11 @@ import { Update } from './pages/update.jsx';
 import { Delete } from './pages/delete.jsx';
 import { Home } from './pages/home.jsx';
 import { Contact } from './pages/contact.jsx';
-import { Authenticator } from '@aws-amplify/ui-react';
+// import { Authenticator } from '@aws-amplify/ui-react';
 
 function App() {
   return (
-    <Authenticator signUpAttributes={['email']}>
+    // <Authenticator signUpAttributes={['email']}>
       <div className="App">
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -28,7 +28,7 @@ function App() {
           </Route>
         </Routes>
       </div>
-    </Authenticator>
+    // </Authenticator>
   );
 }
 
