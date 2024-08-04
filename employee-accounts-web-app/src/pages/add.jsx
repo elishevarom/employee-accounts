@@ -121,7 +121,6 @@ export function Add() {
       setValidated(false);
       setCreate('No Employee Added, field(s) missing');
     }
-=======
  
   };
 
