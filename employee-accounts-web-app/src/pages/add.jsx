@@ -58,6 +58,7 @@ export function Add() {
     }
   }, [isLoaded]);
 
+
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData(prev => ({ ...prev, [id]: value }));
@@ -120,6 +121,8 @@ export function Add() {
       setValidated(false);
       setCreate('No Employee Added, field(s) missing');
     }
+=======
+ 
   };
 
   return (
