@@ -1,0 +1,86 @@
+/* src/pages/styling.css
+
+/* Ensure no margin or padding on body */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Full-width background image */
+.background-image-custom {
+    background-image: url('../../images/homePage.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire element */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    position: fixed; /* Fixed positioning to ensure it stays in place */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    z-index: -1; /* Places the background behind other content */
+}
+
+/* Add padding to the top of the content area */
+.content-padding {
+    padding-top: 56px; /* Adjust based on your header height */
+}
+
+/* Navbar Design */
+.navbar-nav {
+    width: 100%;
+}
+
+.navbar-nav .nav-link {
+    flex: 1;
+    text-align: center; /* Center the text in each link */
+    align-items: center;
+}
+
+.no-underline {
+    text-decoration: none !important; /* Remove underline */
+}
+
+/* Home Slogan Styling */
+.home-slogan {
+    text-align: center; /* Center align text */
+    color: #fff; /* White color */
+    text-transform: uppercase;
+    padding: 150px; /* Adjust padding as needed */
+}
+
+.line-one {
+    display: block; /* Ensures this line breaks to a new line */
+    font-size: 5rem; /* Font size for the first line */
+    font-weight: bold; /* Bold font weight */
+    margin: 0; /* Remove margins */
+    line-height: 1; /* Adjust line height */
+    color: transparent; /* Make text transparent to show only outline */
+    text-shadow: 
+        -1px -1px 0 #ffffff,  
+        1px -2px 0 #587bb9,
+        -2px 1px 0 #7d123b,
+        1px 1px 0 #13223b; /* Outline color */
+}
+
+.line-two {
+    display: block; /* Ensures this line breaks to a new line */
+    font-size: 7rem; /* Font size for the second line */
+    font-weight: bolder; /* Bolder font weight */
+    color: #ee2873;
+    margin: 0; /* Remove margins */
+    line-height: 1; /* Adjust line height */
+}
+
+.line-three {
+    display: block; /* Ensures this line breaks to a new line */
+    font-size: 1.5rem; /* Font size for the third line */
+    font-weight: normal; /* Normal font weight */
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Optional text shadow */
+    margin-top: 40px; /* Space from the previous line */
+    margin-right: 25%;
+    margin-left: 25%;
+    text-transform: none;
+} 
