@@ -14,34 +14,46 @@ export const Delete = () => {
     fetchData(); // Fetch data when component mounts
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch('https://zx814esxf6.execute-api.us-east-1.amazonaws.com/default/getAllEmployeeAccounts');
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://zx814esxf6.execute-api.us-east-1.amazonaws.com/default/getAllEmployeeAccounts');
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const data = await response.json();
+        const formattedEmployees = data.map(emp => ({
+          id: emp.pk,
+          firstName: emp['First Name'],
+          lastName: emp['Last Name'],
+          position: emp.Position,
+          location: (
+            <div>
+              {emp.Address}<br />
+              {emp.City}, {emp.State} {emp.Zip}
+            </div>
+          ),
+          phone: emp.Phone,
+          email: emp.Email,
+          isOpen: false
+        }));
+    
+        // Sort employees alphabetically by last name, then by first name
+        formattedEmployees.sort((a, b) => {
+          const lastNameComparison = a.lastName.localeCompare(b.lastName);
+          if (lastNameComparison === 0) {
+            return a.firstName.localeCompare(b.firstName);
+          }
+          return lastNameComparison;
+        });
+    
+        setEmployees(formattedEmployees);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        // Handle error state or logging
       }
-      const data = await response.json();
-      const formattedEmployees = data.map(emp => ({
-        id: emp.pk,
-        firstName: emp['First Name'],
-        lastName: emp['Last Name'],
-        position: emp.Position,
-        location: (
-          <div>
-            {emp.Address}<br />
-            {emp.City}, {emp.State} {emp.Zip}
-          </div>
-        ),
-        phone: emp.Phone,
-        email: emp.Email,
-        isOpen: false
-      }));
-      setEmployees(formattedEmployees);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      // Handle error state or logging
-    }
-  };
+    };
+    
 
   const removeEmployee = async (employeeId) => {
     try {
@@ -85,87 +97,90 @@ export const Delete = () => {
   return (
     <div className="flex-column align-items-center justify-content-center overflow-auto min-vh-100 delete-background-image">
       <div className="text-center">
-        <h1 className='mt-5 text-light p-5'>Delete Employee Profiles</h1>
+        <h1 className='m-5 fs-0 text-light pt-3'>DELETE EMPLOYEE ACCOUNT</h1>
         <Container>
-          {employees.map((employee) => (
-             <Col key={employee.id} className="mb-3">
-              <Row className='col-md-6'>
-                <Accordion activeKey={employee.isOpen ? '0' : undefined}>
-                  <Accordion.Item eventKey="0" style={{ width: '100%' }}>
-                  <Accordion.Header
+          {employees
+            .sort((a, b) => {
+              const lastNameComparison = a.lastName.localeCompare(b.lastName);
+              if (lastNameComparison === 0) {
+                return a.firstName.localeCompare(b.firstName);
+              }
+              return lastNameComparison;
+            })
+            .map((employee) => (
+              <Col key={employee.id} className="mb-3">
+                <Row className='col-md-6'>
+                  <Accordion activeKey={employee.isOpen ? '0' : undefined}>
+                    <Accordion.Item eventKey="0" style={{ width: '100%' }}>
+                      <Accordion.Header
                         className="text-white rounded-5"
                         onClick={() => toggleAccordion(employee.id)}
                       >
                         {employee.lastName + ', ' + employee.firstName}
                       </Accordion.Header>
-                    <Accordion.Body className='bg-primary'>
-                      <ul  className='text-start' style={{ listStyleType: 'none' }}>
-                        <li >
-                          <Col>
-                            <Row className='mb-n1 text-light'>
-                              <h6>First Name:</h6>
-                            </Row>
-                            <Row className='ms-0 mb-3 text-info'>
-                            {employee.firstName}
-                            </Row>
-                            
-                            <Row className='mb-n1 text-light'>
-                              <h6>Last Name:</h6>
-                            </Row>
-                            <Row className='ms-0 mb-3 text-info'>
-                            {employee.lastName}
-                            </Row>
-
-                            <Row className='mb-n1 text-light'>
-                              <h6>Phone:</h6>
-                            </Row>
-                            <Row className='ms-0 mb-3 text-info'>
-                            {employee.phone}
-                            </Row>
-
-                            <Row className='mb-n1 text-light'>
-                              <h6>Email:</h6>
-                            </Row>
-                            <Row className='ms-0 mb-3 text-info'>
-                            {employee.email}
-                            </Row>
-
-                            <Row className='mb-n1 text-light'>
-                              <h6>Position:</h6>
-                            </Row>
-                            <Row className='ms-0 mb-3 text-info'>
-                            {employee.position}
-                            </Row>
-
-                            <Row className='mb-n1 text-light'>
-                              <h6>Location:</h6>
-                            </Row>
-                            <Row className='ms-n1 mb-3 text-info'>
-                            {employee.location}
-                            </Row>
-
-                          </Col>
-                          <Col style={{ paddingTop: '20px' }}>
-                            <Button
-                              type="button"
-                              style={{ backgroundColor: '#152235', color: 'white', borderColor: '#152235' }}
-                              onClick={(e) => handleConfirmation(e, employee.id, employee.firstName, employee.lastName)}
-                            >
-                              Delete Employee Profile
-                            </Button>
-                          </Col>
-                        </li>
-                      </ul>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-              </Row>
-            </Col>
-          ))}
+                      <Accordion.Body className='bg-primary'>
+                        <ul className='text-start' style={{ listStyleType: 'none' }}>
+                          <li>
+                            <Col>
+                              <Row className='mb-n1 text-light'>
+                                <h6>First Name:</h6>
+                              </Row>
+                              <Row className='ms-0 mb-3 text-info'>
+                                {employee.firstName}
+                              </Row>
+                              <Row className='mb-n1 text-light'>
+                                <h6>Last Name:</h6>
+                              </Row>
+                              <Row className='ms-0 mb-3 text-info'>
+                                {employee.lastName}
+                              </Row>
+                              <Row className='mb-n1 text-light'>
+                                <h6>Phone:</h6>
+                              </Row>
+                              <Row className='ms-0 mb-3 text-info'>
+                                {employee.phone}
+                              </Row>
+                              <Row className='mb-n1 text-light'>
+                                <h6>Email:</h6>
+                              </Row>
+                              <Row className='ms-0 mb-3 text-info'>
+                                {employee.email}
+                              </Row>
+                              <Row className='mb-n1 text-light'>
+                                <h6>Position:</h6>
+                              </Row>
+                              <Row className='ms-0 mb-3 text-info'>
+                                {employee.position}
+                              </Row>
+                              <Row className='mb-n1 text-light'>
+                                <h6>Location:</h6>
+                              </Row>
+                              <Row className='ms-n1 mb-3 text-info'>
+                                {employee.location}
+                              </Row>
+                            </Col>
+                            <Col style={{ paddingTop: '20px' }}>
+                              <Button
+                                type="button"
+                                style={{ backgroundColor: '#152235', color: 'white', borderColor: '#152235' }}
+                                onClick={(e) => handleConfirmation(e, employee.id, employee.firstName, employee.lastName)}
+                              >
+                                Delete Employee Profile
+                              </Button>
+                            </Col>
+                          </li>
+                        </ul>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </Row>
+              </Col>
+            ))}
         </Container>
       </div>
     </div>
   );
+  
 }
 
 export default Delete;

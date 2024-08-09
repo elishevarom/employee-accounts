@@ -11,13 +11,13 @@ export function About() {
         <Container className="d-flex align-items-center justify-content-center min-vh-100">
 
           <Col className='text-center'>
-            <Row>
-              <h1 className="fs-xl fw-bolder line-two text-light text-uppercase">About Employee Accounts</h1>
+            <Row className='text-center'>
+              <h1 className="fs-xl fw-bolder text-light text-uppercase mb-5">About Employee Accounts</h1>
             </Row>
 
-            <Row>
-              <Col>
-                <Card className="card border-2 border-secondary mb-5" style={{maxWidth: '25rem'}}>
+            <Row className='justify-content-center mt-5'>
+              <Col md={4} className="mb-4">
+                <Card className="card border-2 border-secondary mb-5">
                   <Card.Body className='bg-primary'>
                     <Card.Title className='fs-3 fw-semibold text-secondary'>What we Provide</Card.Title>
                     <Card.Text className='fs-5 text-light text-lowercase'>
@@ -27,8 +27,8 @@ export function About() {
                 </Card>
               </Col>
 
-              <Col>
-                <Card className="card border-2 border-secondary mb-5" style={{maxWidth: '25rem'}}>
+              <Col md={4} className="mb-4">
+                <Card className="card border-2 border-secondary mb-5">
                 <Card.Body className='bg-primary'>
                     <Card.Title className='fs-3 fw-semibold text-secondary'>Features</Card.Title>
                     <Card.Text className='fs-5 text-light text-lowercase'>
@@ -38,8 +38,8 @@ export function About() {
                 </Card>
               </Col>
 
-              <Col>
-              <Card className="card border-2 border-secondary mb-5" style={{maxWidth: '25rem'}}>
+              <Col md={4} className="mb-4">
+              <Card className="card border-2 border-secondary mb-5">
                 <Card.Body className='bg-primary'>
                     <Card.Title className='fs-3 fw-semibold text-secondary'>About the Creators</Card.Title>
                     <Card.Text className='fs-5 text-light text-lowercase'>

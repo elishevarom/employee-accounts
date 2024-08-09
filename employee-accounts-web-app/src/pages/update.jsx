@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, Form, Row, Col, Dropdown, Alert, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBorderTopLeft, faUser } from '@fortawesome/free-solid-svg-icons';
 
 export function Update() {
     const [account, setAccount] = useState([]);
@@ -103,12 +103,12 @@ export function Update() {
     return (
         <>
             <div className='update-background-image overflow-auto'>
-                <h2 className='m-5 fs-0 text-light pt-3'>UPDATE EMPLOYEE ACCOUNT</h2>
-                <div className='d-flex justify-content-center align-items-center mt-10'>
-                    <Card className='border-secondary bg-secondary text-light' style={{ width: '100%', maxWidth: '800px', height: '400px' }}>
+                <h2 className='m-5 fs-0 text-light pt-5'>UPDATE EMPLOYEE ACCOUNT</h2>
+                <div className='d-flex justify-content-center align-items-center m-5'>
+                    <Card className='border-secondary border-2 bg-info text-light' style={{ width: '100%', maxWidth: '800px', height: '100%' }}>
                         <Card.Body className="d-flex p-0">
                             <Row className='g-0 flex-fill'>
-                                <Col md={6} className="bg-secondary text-light d-flex flex-column justify-content-center align-items-center" style={{ height: '100%' }}>
+                                <Col md={6} className="bg-secondary text-light d-flex flex-column justify-content-center align-items-center p-5" style={{ height: '100%', borderTopLeftRadius: '5px', borderBottomLeftRadius: '5px'}}>
                                     <FontAwesomeIcon icon={faUser} size="10x" className='text-primary' />
                                     <Dropdown className="mt-3">
                                         <Dropdown.Toggle variant="light" id="dropdown-basic">
@@ -123,7 +123,7 @@ export function Update() {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                     <Dropdown className="mt-3">
-                                        <Dropdown.Toggle variant="light" id="dropdown-basic">
+                                        <Dropdown.Toggle variant="light" id="dropdown-basic" disabled={!selectedEmployee}>
                                             Select Field to Update
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
@@ -156,38 +156,38 @@ export function Update() {
                                         </Alert>
                                     )}
                                 </Col>
-                                <Col md={6} className={`d-flex flex-column justify-content-center p-3 ${selectedEmployee ? 'bg-primary' : 'bg-secondary text-light'}`} style={{ height: '100%' }}>
+                                <Col md={6} className={`d-flex flex-column justify-content-center p-3 ${selectedEmployee ? 'bg-primary' : 'bg-primary text-light'}`} style={{ height: '100%', borderTopRightRadius: '5px', borderBottomRightRadius: '5px' }}>
                                     {selectedEmployee ? (
                                         <div>
                                             <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>First Name</h2>
-                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5'>{selectedEmployee['First Name']}</p>
-    
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['First Name']}</p>
+
                                             <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>Last Name</h2>
-                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5'>{selectedEmployee['Last Name']}</p>
-    
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['Last Name']}</p>
+
                                             <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>Email</h2>
-                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5'>{selectedEmployee['Email']}</p>
-    
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['Email']}</p>
+
                                             <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>Phone</h2>
-                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5'>{selectedEmployee['Phone']}</p>
-    
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['Phone']}</p>
+
                                             <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>Position</h2>
-                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5'>{selectedEmployee['Position']}</p>
-    
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['Position']}</p>
+
                                             <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>Street Address</h2>
-                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5'>{selectedEmployee['Address']}</p>
-    
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['Address']}</p>
+
                                             <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>City</h2>
-                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5'>{selectedEmployee['City']}</p>
-    
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['City']}</p>
+
                                             <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>State</h2>
-                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5'>{selectedEmployee['State']}</p>
-    
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize' >{selectedEmployee['State']}</p>
+
                                             <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>Zip</h2>
-                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5'>{selectedEmployee['Zip']}</p>
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['Zip']}</p>
                                         </div>
                                     ) : (
-                                        <h1 className='text-start m-2 p-2 fs-1'>PLEASE SELECT AN EMPLOYEE ABOVE</h1>
+                                        <h1 className='text-info text-start m-2 p-3 fs-large'>PLEASE SELECT AN EMPLOYEE</h1>
                                     )}
                                 </Col>
                             </Row>
@@ -197,5 +197,4 @@ export function Update() {
             </div>
         </>
     );
-    
 }

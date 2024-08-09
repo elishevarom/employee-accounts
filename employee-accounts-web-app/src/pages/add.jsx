@@ -77,10 +77,10 @@ export function Add() {
       const newEmployee = `${formData.firstName} ${formData.lastName}, ${formData.email}, ${formData.phone}, ${formData.address}, ${formData.city}, ${formData.state} ${formData.zip}, ${formData.position}`;
       setFormData(initialFormData);
 
-      setCreate(formData.firstName + ' ' + formData.lastName + 'has been added to the system.');
+      setCreate((formData.firstName + ' ' + formData.lastName + ' has been added to the system.').toUpperCase());
     } else {
       setValidated(false);
-      setCreate('No Employee Added, field(s) missing');
+      setCreate(('No Employee Added, field(s) missing').toLowerCase());
     }
   };
 
@@ -92,16 +92,17 @@ export function Add() {
           <Form className='mx-auto p-2' noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="my-3">
               <Form.Group as={Col} md="6" controlId="firstName">
-                <Form.Label className='text-light fs-5'>First name</Form.Label>
-                <Form.Control
-                  className='bg-primary border-secondary text-light'
-                  type="text"
-                  placeholder="John"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                />
-                <Form.Control.Feedback type="invalid">Please enter a first name.</Form.Control.Feedback>
-              </Form.Group>
+  <Form.Label className='text-light fs-5 text-start'>First name</Form.Label>
+  <Form.Control
+    className='bg-primary border-secondary text-light'
+    type="text"
+    placeholder="John"
+    value={formData.firstName}
+    onChange={handleChange}
+  />
+  <Form.Control.Feedback type="invalid">Please enter a first name.</Form.Control.Feedback>
+</Form.Group>
+
               <Form.Group as={Col} md="6" controlId="lastName">
                 <Form.Label className='text-light fs-5'>Last name</Form.Label>
                 <Form.Control

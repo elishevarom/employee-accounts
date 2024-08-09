@@ -14,7 +14,7 @@ export function Layout() {
             {/* Navbar */}
             <Navbar bg="primary" variant="dark" expand="lg" fixed="top" style={{boxShadow: '0 1px 10px '}}>
                 <Container fluid>
-                    <Navbar.Brand href="/" className="text-light">Employee Accounts</Navbar.Brand>
+                    <Navbar.Brand href="/" className="text-secondary fs-4  fw-bold">Employee Accounts Inc.</Navbar.Brand>
                     <Navbar.Collapse>
                         <Nav className="navbar-nav w-100 d-flex justify-content-between">
                             <Nav.Link href="/" className="text-light no-underline">
