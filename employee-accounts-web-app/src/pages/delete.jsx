@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
+import '../pages/styling.css';
 
 export const Delete = () => {
   const [employees, setEmployees] = useState([]);
@@ -23,7 +24,7 @@ export const Delete = () => {
       const formattedEmployees = data.map(emp => ({
         id: emp.pk,
         firstName: emp['First Name'],
-        lastName: emp.pk,
+        lastName: emp['Last Name'],
         position: emp.Position,
         location: (
           <div>
@@ -82,67 +83,87 @@ export const Delete = () => {
   };
 
   return (
-    <div className="background-image">
-      <Alert style={{ boxShadow: '0 30px 20px 10px #152235', borderRadius: '0', backgroundColor: 'white', borderTop: '5px solid', borderBottom: '5px solid', color: '#5D9D67', borderColor: '#5D9D67', opacity: '90%' }}>
-        <h1 style={{ opacity: "100%", textShadow: '1px 1px 2px #152235', fontSize: '40px', fontWeight: 'bold', fontFamily: 'Times-New-Roman', letterSpacing: '10%', textTransform: 'uppercase' }}>Delete An Employee Account</h1>
-      </Alert>
-
-      <Container>
-        {employees.map((employee) => (
-          <Col key={employee.id} style={{ margin: '20px' }}>
-            <Row style={{ margin: '10px' }}>
-              <Accordion activeKey={employee.isOpen ? '0' : undefined}>
-                <Accordion.Item eventKey="0">
-                  <Accordion.Header style={{ '--bs-accordion-active-bg': '#97a8ba', '--bs-accordion-btn-focus-box-shadow': 'none' }} className="accordion-header" onClick={() => toggleAccordion(employee.id)}>
-                    {employee.lastName + ', ' + employee.firstName}
-                  </Accordion.Header>
-                  <Accordion.Body>
-                    <ul style={{ listStyleType: 'none' }}>
-                      <li>
-                        <Row>
+    <div className="flex-column align-items-center justify-content-center overflow-auto min-vh-100 delete-background-image">
+      <div className="text-center">
+        <h1 className='mt-5 text-light p-5'>Delete Employee Profiles</h1>
+        <Container>
+          {employees.map((employee) => (
+             <Col key={employee.id} className="mb-3">
+              <Row className='col-md-6'>
+                <Accordion activeKey={employee.isOpen ? '0' : undefined}>
+                  <Accordion.Item eventKey="0" style={{ width: '100%' }}>
+                  <Accordion.Header
+                        className="text-white rounded-5"
+                        onClick={() => toggleAccordion(employee.id)}
+                      >
+                        {employee.lastName + ', ' + employee.firstName}
+                      </Accordion.Header>
+                    <Accordion.Body className='bg-primary'>
+                      <ul  className='text-start' style={{ listStyleType: 'none' }}>
+                        <li >
                           <Col>
-                            <h6>First Name:</h6>
+                            <Row className='mb-n1 text-light'>
+                              <h6>First Name:</h6>
+                            </Row>
+                            <Row className='ms-0 mb-3 text-info'>
                             {employee.firstName}
-                          </Col>
-                          <Col>
-                            <h6>Last Name:</h6>
+                            </Row>
+                            
+                            <Row className='mb-n1 text-light'>
+                              <h6>Last Name:</h6>
+                            </Row>
+                            <Row className='ms-0 mb-3 text-info'>
                             {employee.lastName}
-                          </Col>
-                          <Col>
-                            <h6>Location:</h6>
-                            {employee.location}
-                          </Col>
-                          <Col>
-                            <h6>Position:</h6>
-                            {employee.position}
-                          </Col>
-                          <Col>
-                            <h6>Phone:</h6>
+                            </Row>
+
+                            <Row className='mb-n1 text-light'>
+                              <h6>Phone:</h6>
+                            </Row>
+                            <Row className='ms-0 mb-3 text-info'>
                             {employee.phone}
-                          </Col>
-                          <Col>
-                            <h6>Email:</h6>
+                            </Row>
+
+                            <Row className='mb-n1 text-light'>
+                              <h6>Email:</h6>
+                            </Row>
+                            <Row className='ms-0 mb-3 text-info'>
                             {employee.email}
+                            </Row>
+
+                            <Row className='mb-n1 text-light'>
+                              <h6>Position:</h6>
+                            </Row>
+                            <Row className='ms-0 mb-3 text-info'>
+                            {employee.position}
+                            </Row>
+
+                            <Row className='mb-n1 text-light'>
+                              <h6>Location:</h6>
+                            </Row>
+                            <Row className='ms-n1 mb-3 text-info'>
+                            {employee.location}
+                            </Row>
+
                           </Col>
-                        </Row>
-                        <Row style={{ paddingTop: '20px' }}>
-                          <Button
-                            type="button"
-                            style={{ backgroundColor: '#152235', color: 'white', borderColor: '#152235' }}
-                            onClick={(e) => handleConfirmation(e, employee.id, employee.firstName, employee.lastName)}
-                          >
-                            Delete Employee Profile
-                          </Button>
-                        </Row>
-                      </li>
-                    </ul>
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
-            </Row>
-          </Col>
-        ))}
-      </Container>
+                          <Col style={{ paddingTop: '20px' }}>
+                            <Button
+                              type="button"
+                              style={{ backgroundColor: '#152235', color: 'white', borderColor: '#152235' }}
+                              onClick={(e) => handleConfirmation(e, employee.id, employee.firstName, employee.lastName)}
+                            >
+                              Delete Employee Profile
+                            </Button>
+                          </Col>
+                        </li>
+                      </ul>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+              </Row>
+            </Col>
+          ))}
+        </Container>
+      </div>
     </div>
   );
 }

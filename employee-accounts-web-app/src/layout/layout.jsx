@@ -11,9 +11,6 @@ import '../pages/customTheme.scss';
 export function Layout() {
     return (
         <>
-            {/* Full-width Background Image */}
-            <div className="position-fixed top-0 start-0 vw-100 vh-100 z-index-n1 background-image-custom"></div>
-
             {/* Navbar */}
             <Navbar bg="primary" variant="dark" expand="lg" fixed="top" style={{boxShadow: '0 1px 10px '}}>
                 <Container fluid>

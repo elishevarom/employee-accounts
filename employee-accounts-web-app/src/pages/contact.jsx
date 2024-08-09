@@ -6,13 +6,13 @@ export function Contact() {
     return (
         <div className='contact-background-image'>
             <Container className="d-flex align-items-center justify-content-center min-vh-100">
-                <Col className="d-flex align-items-center justify-content-center">
+                <Col className="text-center">
                     <Row className="w-100 text-center">
                         <h1 className="text-light contact-slogan">CONTACT</h1>
                     </Row>
 
                     <Row className="w-100">
-                        <Card className="mx-auto" style={{ width: '50%' }}>
+                        <Card className="mx-auto bg" style={{ width: '50%' }}>
                             <Card.Body>
                                 <Tabs
                                     defaultActiveKey="email"
@@ -20,7 +20,7 @@ export function Contact() {
                                     className="mb-3"
                                 >
                                     <Tab eventKey="email" title="Email">
-                                        Tab content for email
+                                        employees@accounts.com
                                     </Tab>
                                     <Tab eventKey="phone" title="Phone">
                                         Tab content for phone
