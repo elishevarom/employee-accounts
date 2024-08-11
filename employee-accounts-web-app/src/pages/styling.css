@@ -1,0 +1,136 @@
+/* extending bootstrap fontsize */
+.fs-large {
+    font-size: 3rem;
+}
+.fs-0 {
+    font-size: 5rem; /* Adjust as needed */
+  }
+
+.fs-xl {
+    font-size: 5.5rem;
+}
+  
+.fs-xxl {
+    font-size: 6rem; /* Adjust as needed */
+  }
+  
+.fs-xxxl {
+    font-size: 7rem; /* Adjust as needed */
+  }
+  
+/* negative margin bottom */
+.mb-n1 {
+    margin-bottom: -0.25rem !important;
+  }
+
+/* negative margin start*/
+.ms-n1 {
+    margin-bottom: -0.25rem !important;
+  }
+
+/* Home background image */
+.home-background-image {
+    background-image: url('../../images/homePage.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire element */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    position: fixed; /* Fixed positioning to ensure it stays in place */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    z-index: -1; /* Places the background behind other content */
+}
+
+/* about background image */
+.about-background-image {
+    background-image: url('../../images/aboutPage.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire element */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    position: fixed; /* Fixed positioning to ensure it stays in place */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    z-index: -1; /* Places the background behind other content */
+}
+
+/* contact background image */
+.contact-background-image {
+    background-image: url('../../images/contactPage.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire element */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    position: fixed; /* Fixed positioning to ensure it stays in place */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    z-index: -1; /* Places the background behind other content */
+}
+
+/* add background image */
+.add-background-image {
+    background-image: url('../../images/addPage.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire element */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    position: fixed; /* Fixed positioning to ensure it stays in place */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    z-index: -1; /* Places the background behind other content */
+}
+
+/* retrieve background image */
+.retrieve-background-image {
+    background-image: url('../../images/retrievePage.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire element */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    position: fixed; /* Fixed positioning to ensure it stays in place */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    z-index: -1; /* Places the background behind other content */
+}
+
+/* update background image */
+.update-background-image {
+    background-image: url('../../images/updatePage.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire element */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    position: fixed; /* Fixed positioning to ensure it stays in place */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    z-index: -1; /* Places the background behind other content */
+}
+
+/* delete background image */
+.delete-background-image {
+    background-image: url('../../images/deletePage.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire element */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    position: fixed; /* Fixed positioning to ensure it stays in place */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    z-index: -1; /* Places the background behind other content */
+}
+
+.no-underline {
+    text-decoration: none !important; /* Remove underline */
+}
+
+/*accordion styling*/
+.accordion {
+    --bs-accordion-color: navy;
+}
