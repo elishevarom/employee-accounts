@@ -1,0 +1,69 @@
+$primary: #010613;
+$secondary: #ee2873;
+$dark: #587BB9;
+$light: #FFFFFF;
+$success: #16B94E;
+$info: #93ABD6;
+$warning: rgb(252, 217, 44);
+$danger: #8c093b;
+$transparent: rgba(255, 255, 255, 0.9);
+
+$font-family-base: 'Arsenal SC', sans-serif;
+
+
+
+// customTheme.scss
+
+$navbar-shadow: 0 4px 8px rgba(255, 255, 255, 0.64);
+
+// General navbar dark theme styles
+.navbar-dark {
+    --navbar-color: $danger; // Light text color
+    --navbar-bg: #343a40; // Dark background color
+}
+
+// Styles for Nav.Link
+.nav-link {
+    display: block;
+    padding: .5rem 1rem;
+    color: var(--navbar-color); // Light text color
+    text-decoration: none;
+    text-align: center;
+}
+
+.nav-link:hover {
+    color: $light; // Example hover color
+    text-decoration: none;
+}
+
+// Styles for Dropdown
+.dropdown-toggle {
+    display: block;
+    padding: .5rem 1rem;
+    color: var(--navbar-color); // Match text color with nav-link
+    background-color: transparent; // Match background with navbar
+    border: none; // Remove default border
+}
+
+.dropdown-toggle:focus,
+.dropdown-toggle:hover {
+    color: $info; // Example hover color
+    background-color: transparent; // Ensure background is transparent
+}
+
+.dropdown-menu {
+    background-color: var(--navbar-bg); // Dark background for dropdown
+    border: none; // Remove border if needed
+    border-radius: 0; // Optional: match border radius if needed
+}
+
+.dropdown-item {
+    color: var(--navbar-color); // Match text color with nav-link
+}
+
+.dropdown-item:hover {
+    background-color: $info; // Example hover background color
+    color: #fff; // Example hover text color
+}
+
+@import '~bootstrap/scss/bootstrap.scss';
