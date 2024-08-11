@@ -1,77 +1,59 @@
 import { useState, useEffect } from "react";
-import { Container, ListGroup, Button, Form, Row, Col, Dropdown, Alert } from 'react-bootstrap';
-import './update.css';
-// import '../navy-1.png';
-// import employeeImage from '../profile.png'; // Import your image
-// import navyBackground from '../navy-1.png'; // Import navy background image
-export function Update() {
+import { Button, Form, Row, Col, Dropdown, Alert, Card } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBorderTopLeft, faUser } from '@fortawesome/free-solid-svg-icons';
 
+export function Update() {
     const [account, setAccount] = useState([]);
-    const [selectedEmployeeIndex, setSelectedEmployeeIndex] = useState(null); // Track selected employee index
+    const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [selectedItemKey, setSelectedItemKey] = useState(null);
     const [newValue, setNewValue] = useState('');
     const [showUpdateForm, setShowUpdateForm] = useState(false);
-    const [lastName, setLastName] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [error, setError]=useState(false)
+    const [error, setError] = useState(false);
 
     useEffect(() => {
-        const retrieveAccounts = async (e) => {
-            if (e) {
-              e.preventDefault();
-            }
-          
+        const retrieveAccounts = async () => {
             try {
-              const response = await fetch('https://zx814esxf6.execute-api.us-east-1.amazonaws.com/CORS-Enabled/getAllEmployeeAccounts');
-          
-              if (!response.ok) {
-                throw new Error('Network response was not ok');
-              }
-          
-              const data = await response.json();
-              setAccount(data); // Assuming data is an array of accounts
+                const response = await fetch('https://zx814esxf6.execute-api.us-east-1.amazonaws.com/CORS-Enabled/getAllEmployeeAccounts');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setAccount(data); // Assuming data is an array of accounts
             } catch (error) {
-              console.error('Error:', error);
-              // setError(error.message); // Uncomment if you have an error state
+                console.error('Error:', error);
             }
-          };
-                  retrieveAccounts()
-        }, []);
-     
-    const handleEmployeeSelect = (last_name, first_name, index) => {
-        setSelectedEmployeeIndex(last_name);
-        setLastName(last_name);
-        setFirstName(first_name);
-        setSelectedItemKey(null); // Reset selectedItemKey when a new employee is selected
-        setShowUpdateForm(false); // Hide update form when a new employee is selected
+        };
+        retrieveAccounts();
+    }, []);
+
+    const handleEmployeeSelect = (last_name, first_name) => {
+        const employee = account.find(emp => emp['pk'] === last_name && emp['First Name'] === first_name);
+        setSelectedEmployee(employee);
+        setSelectedItemKey(null);
+        setShowUpdateForm(false);
     };
 
     const updateValue = async () => {
-        if (lastName !== null && firstName !== null && selectedItemKey !== null && newValue !== '') {
+        if (selectedEmployee && selectedItemKey && newValue) {
             try {
-                const empId = lastName; // Replace with actual employee ID from your account data
+                const empId = selectedEmployee['pk'];
                 const attributeName = selectedItemKey;
-                console.log(selectedItemKey)
-                console.log(newValue)
-                console.log(lastName)
                 const params = {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        // "employeeId": "empId",
-                        // "TableName": "'employee_accounts'",
                         attributeName: attributeName,
                         value: newValue
                     })
                 };
-                
+
                 const response = await fetch(`https://zx814esxf6.execute-api.us-east-1.amazonaws.com/CORS-Enabled/updateAccount?employeeId=${empId}`, params);
-                console.log(response)
                 if (!response.ok) {
-                    setError(true)
-                    setShowUpdateForm(false)
+                    setError(true);
+                    setShowUpdateForm(false);
                     throw new Error('Network response was not ok');
                 }
 
@@ -80,7 +62,7 @@ export function Update() {
 
                 // Update local state with new value
                 const updatedAccount = account.map(emp => {
-                    if (emp['pk'] === lastName && emp['First Name'] === firstName) {
+                    if (emp['pk'] === empId) {
                         return {
                             ...emp,
                             [attributeName]: newValue
@@ -90,133 +72,129 @@ export function Update() {
                 });
 
                 setAccount(updatedAccount);
+
+                // Re-select the updated employee
+                const updatedEmployee = updatedAccount.find(emp => emp['pk'] === empId);
+                setSelectedEmployee(updatedEmployee);
+                
                 setNewValue('');
                 setShowUpdateForm(false);
             } catch (error) {
                 console.error('Error updating value:', error);
-                setError(true)
-                setShowUpdateForm(false)
-                // Handle error state if needed
+                setError(true);
+                setShowUpdateForm(false);
             }
         } else {
             console.error('Missing required fields for update');
-            // Handle missing fields error state if needed
         }
     };
 
+    const excludedFields = ['created_at',  'pk'];
+
+    // Alphabetize the employee list
+    const sortedEmployees = [...account].sort((a, b) => {
+        const lastNameComparison = a['Last Name'].localeCompare(b['Last Name']);
+        if (lastNameComparison === 0) {
+            return a['First Name'].localeCompare(b['First Name']);
+        }
+        return lastNameComparison;
+    });
+
     return (
         <>
-            <div className="background-image">
-                <div className="employee-image">
-                <Container fluid >
-                    <div>
-                    <Alert className="within-overlay" style={{boxShadow: '0 30px 20px 10px #152235', borderRadius: '0', backgroundColor: 'white',borderTop: '5px solid',borderBottom: '5px solid',color: '#5D9D67', borderColor: '#5D9D67', opacity: '80%'}}>
-                        <h1 style={{opacity:"100%", textShadow: '1px 1px 2px #152235', fontSize: '30px', fontWeight: 'bold',  fontFamily: 'Times-New-Roman', letterSpacing: '100 px', textTransform: 'uppercase'}}>Update an <br/>Employee Account</h1>
-                    </Alert>
-                        {/* <Row className="within-overlay"><br/><h1>Update Employee <br/>Profiles<br/></h1></Row> */}
-                    <Row >
-                        <br/>
-                        {/* Left column for employee dropdown */}
-                        <Col className="overlay-section">
-                        <Dropdown>
-                            <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                            Select Employee
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                            {account.map((employee, index) => (
-                                <Dropdown.Item key={index} onClick={() => handleEmployeeSelect(employee['pk'], employee['First Name'])}>
-                                {employee['pk']}, {employee['First Name']}
-                                </Dropdown.Item>
-                            ))}
-                            </Dropdown.Menu>
-                        </Dropdown>
-                        </Col>
+            <div className='update-background-image overflow-auto'>
+                <h2 className='m-5 fs-0 text-light pt-5'>UPDATE EMPLOYEE ACCOUNT</h2>
+                <div className='d-flex justify-content-center align-items-center m-5'>
+                    <Card className='border-secondary border-2 bg-info text-light' style={{ width: '100%', maxWidth: '800px', height: '100%' }}>
+                        <Card.Body className="d-flex p-0">
+                            <Row className='g-0 flex-fill'>
+                                <Col md={6} className="bg-secondary text-light d-flex flex-column justify-content-center align-items-center p-5" style={{ height: '100%', borderTopLeftRadius: '5px', borderBottomLeftRadius: '5px'}}>
+                                    <FontAwesomeIcon icon={faUser} size="10x" className='text-primary' />
+                                    <Dropdown className="mt-3">
+                                        <Dropdown.Toggle variant="light" id="dropdown-basic">
+                                            Select Employee
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            {sortedEmployees.map((employee, index) => (
+                                                <Dropdown.Item key={index} onClick={() => handleEmployeeSelect(employee['pk'], employee['First Name'])}>
+                                                    {employee['Last Name']}, {employee['First Name']}
+                                                </Dropdown.Item>
+                                            ))}
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                    <Dropdown className="mt-3">
+                                        <Dropdown.Toggle variant="light" id="dropdown-basic" disabled={!selectedEmployee}>
+                                            Select Field to Update
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            {selectedEmployee && Object.entries(selectedEmployee)
+                                                .filter(([key]) => !excludedFields.includes(key))
+                                                .sort(([keyA], [keyB]) => keyA.localeCompare(keyB)) // Alphabetize fields
+                                                .map(([key]) => (
+                                                    <Dropdown.Item key={key} onClick={() => {
+                                                        setSelectedItemKey(key);
+                                                        setShowUpdateForm(true);
+                                                    }}>
+                                                        {key}
+                                                    </Dropdown.Item>
+                                                ))}
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                    {showUpdateForm && selectedItemKey !== null && (
+                                        <Form.Group className="mt-3">
+                                            <Form.Control
+                                                type="text"
+                                                placeholder={`Enter new ${selectedItemKey}`}
+                                                value={newValue}
+                                                onChange={(e) => setNewValue(e.target.value)} />
+                                            <Button className="mt-2" onClick={updateValue}>Update {selectedItemKey}</Button>
+                                        </Form.Group>
+                                    )}
+                                    {error && (
+                                        <Alert variant="danger" className="mt-3" onClose={() => setError(false)} dismissible>
+                                            <div>Error Updating Item!</div>
+                                        </Alert>
+                                    )}
+                                </Col>
+                                <Col md={6} className={`d-flex flex-column justify-content-center p-3 ${selectedEmployee ? 'bg-primary' : 'bg-primary text-light'}`} style={{ height: '100%', borderTopRightRadius: '5px', borderBottomRightRadius: '5px' }}>
+                                    {selectedEmployee ? (
+                                        <div>
+                                            <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>First Name</h2>
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['First Name']}</p>
 
-                        {/* Middle column for field dropdown and update text box */}
-                        <div className="non-overlay-bottom">
-                            {selectedEmployeeIndex !== null && (
-                                <Dropdown>
-                                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                                        Select Field to Update
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu>
-                                    {account
-                                            .filter(emp => emp['pk'] === lastName && emp['First Name'] === firstName)
-                                            .map(emp => (
-                                                <div key={`${emp['pk']}-${emp['First Name']}`}>
-                                                    {Object.entries(emp).map(([key, value]) => (
-                                            <Dropdown.Item key={key} onClick={() => {
-                                                setSelectedItemKey(key);
-                                                setShowUpdateForm(true);
-                                                }}>                                                           
-                                                {key}
-                                            </Dropdown.Item>
-                                                    ))}
-                                                </div>
-                                            ))
-                                    }
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            )}
-                        {/*update buttons*/}
-                            {showUpdateForm && selectedItemKey !== null && (
-                                <div className="non-overlay-lowest">
-                                    <Form.Group>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder={selectedItemKey}
-                                            value={newValue}
-                                            onChange={(e) => setNewValue(e.target.value)} />
-                                    </Form.Group>
-                                        <Button onClick={updateValue}>Update {selectedItemKey}</Button>
-                                    
-                                </div>
-                            )}
-                            {(error) && (
-                                <div className="non-overlay-lowest">
-                                  <Alert variant="danger" onClose={() => setError(false)} dismissible>
-                                        <div>Error Updating Item!</div>
-                                    </Alert>
-                                </div>
-                            )}
-                                
-                        </div>
+                                            <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>Last Name</h2>
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['Last Name']}</p>
 
-                        {/* Right column for employee info */}
-                        <Col className="non-overlay">
-                            {selectedEmployeeIndex !== null && (
-                                <Container>
-                                    <h2 className="white-text">Employee Information</h2>
-                                    <ListGroup style={{opacity:"75%"}}>
-                                        {account
-                                            .filter(emp => emp['pk'] === lastName && emp['First Name'] === firstName)
-                                            .map(emp => (
-                                                <div key={`${emp['pk']}-${emp['First Name']}`}>
-                                                    {Object.entries(emp).map(([key, value]) => (
-                                                        <ListGroup.Item key={key}>
-                                                            <Row>
-                                                                <Col sm={6}>
-                                                                    <h5>{key}:</h5>
-                                                                </Col>
-                                                                <Col sm={6}>
-                                                                    <h5>{value}</h5>
-                                                                </Col>
-                                                            </Row>
-                                                        </ListGroup.Item>
-                                                    ))}
-                                                </div>
-                                            ))
-                                        }
-                                    </ListGroup>
-                                </Container>
-                            )}
-                        </Col>
-                    </Row>
-                    </div>
-                </Container>
+                                            <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>Email</h2>
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['Email']}</p>
+
+                                            <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>Phone</h2>
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['Phone']}</p>
+
+                                            <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>Position</h2>
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['Position']}</p>
+
+                                            <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>Street Address</h2>
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['Address']}</p>
+
+                                            <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>City</h2>
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['City']}</p>
+
+                                            <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>State</h2>
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize' >{selectedEmployee['State']}</p>
+
+                                            <h2 className='text-start fw-semibold mt-3 ms-3 fs-5'>Zip</h2>
+                                            <p className='text-start text-info ms-3 mb-4 ms-3 fs-5 text-capitalize'>{selectedEmployee['Zip']}</p>
+                                        </div>
+                                    ) : (
+                                        <h1 className='text-info text-start m-2 p-3 fs-large'>PLEASE SELECT AN EMPLOYEE</h1>
+                                    )}
+                                </Col>
+                            </Row>
+                        </Card.Body>
+                    </Card>
                 </div>
             </div>
-
         </>
     );
 }
