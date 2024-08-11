@@ -24,7 +24,7 @@ export function Add() {
   const [responseMessage, setResponseMessage] = useState('');
   const [address, setAddress] = useState('');
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyAE4Bzb6fXJrjTNFVyCGqxankoHR7V2Sms', // Replace with your API key
+    googleMapsApiKey: 'Your-API-key', // Replace with your API key
     libraries,
   });
 
