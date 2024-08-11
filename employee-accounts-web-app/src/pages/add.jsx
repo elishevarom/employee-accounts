@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect, useRef } from 'react';
 import { Form, Row, Col, Button, Alert, Card } from 'react-bootstrap';
+import { useLoadScript } from '@react-google-maps/api';
 
 const initialFormData = {
   firstName: '',
@@ -13,16 +15,56 @@ const initialFormData = {
   position: ''
 };
 
+const libraries = ['places'];
+
 export function Add() {
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
   const [create, setCreate] = useState('No Employee Added');
-  const [responseMessage, setResponseMessage] = useState();
+
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const [responseMessage, setResponseMessage] = useState('');
+  const [address, setAddress] = useState('');
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: 'AIzaSyAE4Bzb6fXJrjTNFVyCGqxankoHR7V2Sms', // Replace with your API key
+    libraries,
+  });
+
+  const inputRef = useRef();
+
+  useEffect(() => {
+    if (isLoaded) {
+      const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
+        types: ['address'],
+        fields: ['address_components', 'formatted_address'],
+      });
+
+      autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (place.address_components) {
+          const addressComponents = place.address_components;
+          const streetNumber = addressComponents.find(component => component.types.includes('street_number'))?.long_name || '';
+          const route = addressComponents.find(component => component.types.includes('route'))?.long_name || '';
+          const formattedAddress = `${streetNumber} ${route}`;
+          
+          setAddress(formattedAddress);
+          setFormData(prev => ({
+            ...prev,
+            address: formattedAddress,
+            city: addressComponents.find(component => component.types.includes('locality'))?.long_name,
+            state: addressComponents.find(component => component.types.includes('administrative_area_level_1'))?.short_name || '',
+            zip: addressComponents.find(component => component.types.includes('postal_code'))?.long_name || ''
+          }));
+        }
+      });
+    }
+  }, [isLoaded]);
+
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setFormData({ ...formData, [id]: value });
+    setFormData(prev => ({ ...prev, [id]: value }));
   };
 
   const handleSubmit = (event) => {
@@ -40,9 +82,9 @@ export function Add() {
 
     updateList();
 
-    setResponseMessage({});
     const params = {
       method: 'POST',
+      //headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         employeeID: (formData.zip).substring(3, 4),
         lastName: formData.lastName,
@@ -56,6 +98,7 @@ export function Add() {
         position: formData.position
       })
     };
+
     fetch('https://zx814esxf6.execute-api.us-east-1.amazonaws.com/CORS-Enabled/addAccount', params)
       .then(response => {
         if (!response.ok) {
@@ -68,6 +111,9 @@ export function Add() {
         setResponseMessage('Employee created successfully');
       })
       .catch(error => {
+
+        console.error(error);
+
         setResponseMessage('Error in creating Employee');
       });
   };
@@ -191,6 +237,7 @@ export function Add() {
                 <Form.Label className='text-light fs-5'>Zip</Form.Label>
                 <Form.Control
                   className='bg-primary border-secondary text-light'
+                  ref={inputRef}
                   type="text"
                   placeholder="21215"
                   value={formData.zip}
@@ -213,5 +260,7 @@ export function Add() {
         </Card>
       </div>
     </div>
+
   );
 }
+
