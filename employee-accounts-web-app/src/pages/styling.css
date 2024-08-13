@@ -39,7 +39,7 @@
     left: 0;
     width: 100vw; /* Full viewport width */
     height: 100vh; /* Full viewport height */
-    z-index: -1; /* Places the background behind other content */
+    z-index: 2; /* Places the background behind other content */
 }
 
 /* about background image */
@@ -53,7 +53,7 @@
     left: 0;
     width: 100vw; /* Full viewport width */
     height: 100vh; /* Full viewport height */
-    z-index: -1; /* Places the background behind other content */
+    z-index: 2; /* Places the background behind other content */
 }
 
 /* contact background image */
@@ -67,7 +67,7 @@
     left: 0;
     width: 100vw; /* Full viewport width */
     height: 100vh; /* Full viewport height */
-    z-index: -1; /* Places the background behind other content */
+    z-index: 2; /* Places the background behind other content */
 }
 
 /* add background image */
@@ -81,7 +81,7 @@
     left: 0;
     width: 100vw; /* Full viewport width */
     height: 100vh; /* Full viewport height */
-    z-index: -1; /* Places the background behind other content */
+    z-index: 2; /* Places the background behind other content */
 }
 
 /* retrieve background image */
@@ -95,7 +95,7 @@
     left: 0;
     width: 100vw; /* Full viewport width */
     height: 100vh; /* Full viewport height */
-    z-index: -1; /* Places the background behind other content */
+    z-index: 2; /* Places the background behind other content */
 }
 
 /* update background image */
@@ -109,7 +109,7 @@
     left: 0;
     width: 100vw; /* Full viewport width */
     height: 100vh; /* Full viewport height */
-    z-index: -1; /* Places the background behind other content */
+    z-index: 2; /* Places the background behind other content */
 }
 
 /* delete background image */
@@ -123,14 +123,10 @@
     left: 0;
     width: 100vw; /* Full viewport width */
     height: 100vh; /* Full viewport height */
-    z-index: -1; /* Places the background behind other content */
+    z-index: 2; /* Places the background behind other content */
 }
 
 .no-underline {
     text-decoration: none !important; /* Remove underline */
 }
 
-/*accordion styling*/
-.accordion {
-    --bs-accordion-color: navy;
-}

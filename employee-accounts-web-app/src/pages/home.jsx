@@ -5,7 +5,7 @@ import '../pages/styling.css';
 
 export function Home() {
     return (
-        <div className='home-background-image'>
+        <div className="home-background-image">
             <Container className="d-flex align-items-center justify-content-center min-vh-100">
                 <Col className="text-center">
                     <Row className="mb-0">

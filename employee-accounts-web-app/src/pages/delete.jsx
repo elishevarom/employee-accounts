@@ -110,6 +110,7 @@ export const Delete = () => {
             .map((employee) => (
               <Col key={employee.id} className="mb-3">
                 <Row className='col-md-6'>
+                  <Container>
                   <Accordion activeKey={employee.isOpen ? '0' : undefined}>
                     <Accordion.Item eventKey="0" style={{ width: '100%' }}>
                       <Accordion.Header
@@ -173,6 +174,7 @@ export const Delete = () => {
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
+                  </Container>
                 </Row>
               </Col>
             ))}
