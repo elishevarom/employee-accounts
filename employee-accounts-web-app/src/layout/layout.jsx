@@ -6,11 +6,8 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Container, Navbar, Nav, Dropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolderOpen, faHouse, faMagnifyingGlass, faPeopleGroup, faPhone, faPlus, faRotate, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faFolderOpen, faHouse, faMagnifyingGlass, faPeopleGroup, faPhone, faPlus, faRotate, faTrash, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import '../pages/customTheme.scss';
-
-import SignOut from '../pages/signout'; // Import the SignOut component
-
 
 export function Layout() {
     return (
@@ -32,6 +29,10 @@ export function Layout() {
                             <Nav.Link href="/contact" className="text-light no-underline">
                                 <FontAwesomeIcon icon={faPhone} style={{ marginRight: '0.5rem' }} />
                                 Contact
+                            </Nav.Link>
+                            <Nav.Link href="/signout" className="text-light no-underline">
+                                <FontAwesomeIcon icon={faSignOutAlt} style={{ marginRight: '0.5rem' }} />
+                                Sign Out
                             </Nav.Link>
                             <Dropdown>
                                 <Dropdown.Toggle

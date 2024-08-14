@@ -10,6 +10,8 @@ import { Update } from './pages/update.jsx';
 import { Delete } from './pages/delete.jsx';
 import { Home } from './pages/home.jsx';
 import { Contact } from './pages/contact.jsx';
+import { SignOut } from './pages/signout.jsx';
+
 // import { Authenticator } from '@aws-amplify/ui-react';
 
 function App() {
@@ -25,10 +27,11 @@ function App() {
             <Route path="update" element={<Update />} />
             <Route path="delete" element={<Delete />} />
             <Route path="contact" element={<Contact />} />
+            <Route path="signout" element={<SignOut />}/>
           </Route>
         </Routes>
       </div>
-    // </Authenticator>
+    //  </Authenticator>
   );
 }
 
