@@ -1,0 +1,41 @@
+//add page code
+
+const AWS = require('aws-sdk');
+const dynamodb = new AWS.DynamoDB.DocumentClient();
+
+exports.handler = async (event) => {
+    console.log(event)
+    console.log(event.body)
+    const { employeeID, lastName, firstName, email, phone, address, city, state, zip, position } = JSON.parse(event.body);
+
+    const params = {
+        TableName: 'employee_accounts',
+        Item: {
+            'pk': employeeID,
+            'Last Name': lastName,
+            'First Name': firstName,
+            'Email': email,
+            'Phone': phone,
+            'Address': address,
+            'City': city,
+            'State': state,
+            'Zip': zip,
+            'Position': position,
+            'created_at': new Date().toISOString()
+        }
+    };
+    console.log(params)
+    try {
+        await dynamodb.put(params).promise();
+        return {
+            statusCode: 200,
+            body: JSON.stringify('Employee created successfully'),
+        };
+    } catch (err) {
+        console.error('Error creating item in DynamoDB', err);
+        return {
+            statusCode: 500,
+            body: JSON.stringify('Error creating item in DynamoDB'),
+        };
+    }
+};

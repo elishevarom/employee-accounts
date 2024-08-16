@@ -1,0 +1,27 @@
+//delete page code
+
+const AWS = require('aws-sdk');
+const dynamodb = new AWS.DynamoDB.DocumentClient();
+
+exports.handler = async (event) => {
+    const params = {
+        TableName: 'employee_accounts',
+        Key: {
+            'pk': event.queryStringParameters.EmployeeId
+        }
+    };
+    
+    try {
+        const data = await dynamodb.delete(params).promise();
+        return {
+            statusCode: 204, // 204 indicates successful deletion
+            body: JSON.stringify('Employee deleted successfully'),
+        };
+    } catch (err) {
+        console.error('Error deleting employee from DynamoDB', err);
+        return {
+            statusCode: 500,
+            body: JSON.stringify('Error deleting employee from DynamoDB'),
+        };
+    }
+};
