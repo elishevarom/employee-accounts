@@ -1,0 +1,52 @@
+// update page code
+
+const AWS = require('aws-sdk');
+const dynamodb = new AWS.DynamoDB.DocumentClient();
+
+exports.handler = async (event) => {
+    try {
+        // Parse event body if present
+        let requestBody = {};
+        if (event.body) {
+            requestBody = JSON.parse(event.body);
+        }
+        // Ensure queryStringParameters exist and contain employee_Id
+        const employeeId = event.queryStringParameters && event.queryStringParameters.employeeId;
+
+        if (!employeeId) {
+            return {
+                statusCode: 400,
+                body: JSON.stringify('Missing employee_Id in query parameters'),
+            };
+        }
+
+        const{attributeName, value}=requestBody;
+        const params = {
+            TableName: 'employee_accounts',
+            Key: {
+                'pk': employeeId
+            },
+            UpdateExpression: 'set #attributeName = :value',
+            ExpressionAttributeNames: {
+                '#attributeName': attributeName // Make sure attributeName is defined in requestBody
+            },
+            ExpressionAttributeValues: {
+                ':value': value // Make sure newValue is defined in requestBody
+            },
+            ReturnValues: 'UPDATED_NEW'
+        };
+
+        const data = await dynamodb.update(params).promise();
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify(data.Attributes),
+        };
+    } catch (err) {
+        console.error('Error updating item in DynamoDB', err);
+        return {
+            statusCode: 500,
+            body: JSON.stringify('Error updating item in DynamoDB'),
+        };
+    }
+};
